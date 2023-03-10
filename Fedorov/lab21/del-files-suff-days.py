@@ -26,12 +26,10 @@ def main():
     args = parser.parse_args()
     path = args.path
     if not os.path.exists(path):
-        print("Path doesn't exist")
-        exit()
+        raise Exception("Path doesn't exist")
     suffix = args.suffix
     if not str(args.days).isdigit():
-        print("Days quantity is not a number")
-        exit()
+        raise Exception("Days quantity is not a number")
     days_quantity = int(args.days)
 
     # Search for suitable files and save their paths
