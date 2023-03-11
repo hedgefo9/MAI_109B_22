@@ -19,7 +19,6 @@ def help_message():
 
 
 def read_arguments():
-    # Configure parser of the arguments
     parser = argparse.ArgumentParser(usage=help_message())
     parser.add_argument('-p', '--path', help="Enter an absolute path to directory where script will search for files",
                         required=True)
@@ -28,7 +27,6 @@ def read_arguments():
     parser.add_argument('-d', '--days', help="Enter a number, which means amount of days file was last accessed.",
                         required=True)
 
-    # Read and check arguments if they are valid
     args = parser.parse_args()
     if not os.path.exists(args.path):
         raise Exception("Path doesn't exist.")
@@ -41,7 +39,7 @@ def del_files_accessed_days_ago(paths, days_quantity):
     for path_to_file in paths:
         last_access_time = path_to_file.stat().st_atime
         diff_btw_dates = datetime.now() - datetime.fromtimestamp(last_access_time)
-        # Check if file has been accessed "days_quantity" days
+        # Calc difference and check if file has been accessed "days_quantity" days
         # ago and if yes - delete it
         if diff_btw_dates.days == days_quantity:
             if os.path.isfile(path_to_file):
@@ -52,12 +50,9 @@ def del_files_accessed_days_ago(paths, days_quantity):
 
 
 def main():
-    # Read arguments
     path, suffix, days = read_arguments()
-    # Search for suitable files with specified suffix in specified path and save their paths
     pattern = "*" + suffix
     suitable_paths_to_files = list(pathlib.Path(path).rglob(pattern))
-    # Iterate over files and check conditions, if condition is true - delete file
     del_files_accessed_days_ago(suitable_paths_to_files, days)
 
 

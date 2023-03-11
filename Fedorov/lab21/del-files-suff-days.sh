@@ -10,7 +10,6 @@ Example: del-files-suff-days --path /home/Downloads --suffix .gz --days 10
 --suffix (or -s) is a suffix of a file
 --days (or -d) is a number, which means amount of days file was last accessed.")
 
-# Check if no arguments provided
 if [ -z "$1" ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]
 then
 	if [ -z "$1" ]
@@ -22,14 +21,13 @@ then
         exit 1
 fi
 
-# Check if 3 required arguments provided
+# Check if not 3 required parameters provided
 if [ $# -ne 6 ]
 then
         echo "3 arguments required, $# provided!"
         exit 1
 fi
 
-# Read arguments in command line
 while [ -n "$1" ]
 do
 case "$1" in
@@ -49,16 +47,12 @@ esac
 shift
 done
 
-echo "$path $suffix $days"
-
-# Check path
 if ! [[ -d "$path" ]]
 then
 	echo "Path doesn't exist."
 	exit 1
 fi
 
-# Check days value
 if ! [[ "$days" =~ ^[0-9] ]]
 then
 	echo "Days quantity is not a number."
