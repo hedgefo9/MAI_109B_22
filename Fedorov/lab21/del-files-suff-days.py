@@ -2,41 +2,43 @@ import argparse
 from datetime import datetime
 import os
 import pathlib
-import sys
 
 
-def main():
+def help_message():
+    msg = """
+    This utility can be used to delete all files with specified suffix
+    which has not been accessed specified days quantity
+    3 arguments required, check hint below
+    Syntax: del-files-suff-days --path path/to/dir --suffix any_suffix --days days_quantity
+    Example: del-files-suff-days --path /home/Downloads --suffix .gz --days 10
+    --path (or -p) is an absolute path to directory where script will search for files
+    --suffix (or -s) is a suffix of a file
+    --days (or -d) is a number, which means amount of days file was last accessed.
+    """
+    return msg
+
+
+def read_arguments():
     # Configure parser of the arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('path', help="Enter path where you want to search files.")
-    parser.add_argument('suffix', help="Enter suffix.")
-    parser.add_argument('days', help="Enter number of days.")
+    parser = argparse.ArgumentParser(usage=help_message())
+    parser.add_argument('-p', '--path', help="Enter an absolute path to directory where script will search for files",
+                        required=True)
+    parser.add_argument('-s', '--suffix', help="Enter suffix of a file.",
+                        required=True)
+    parser.add_argument('-d', '--days', help="Enter a number, which means amount of days file was last accessed.",
+                        required=True)
 
     # Read and check arguments if they are valid
-    if len(sys.argv) != 4:
-        print("This utility can be used to delete all files with specified suffix,\n" +
-              "which has not been accessed specified days quantity")
-        print("3 arguments required, check hint below")
-        print("Syntax: del-files-suff-days path suffix days")
-        print("Example: del-files-suff-days /home/Downloads .gz 10")
-        print("'path' is an absolute path to directory where script will search")
-        print("'suffix' is a suffix of a file")
-        print("'days' is a number, which means amount of days file was last accessed")
-        exit()
     args = parser.parse_args()
-    path = args.path
-    if not os.path.exists(path):
-        raise Exception("Path doesn't exist")
-    suffix = args.suffix
+    if not os.path.exists(args.path):
+        raise Exception("Path doesn't exist.")
     if not str(args.days).isdigit():
-        raise Exception("Days quantity is not a number")
-    days_quantity = int(args.days)
+        raise Exception("Days quantity is not a number.")
+    return args.path, args.suffix, int(args.days)
 
-    # Search for suitable files and save their paths
-    pattern = "*" + suffix
-    suitable_files = list(pathlib.Path(path).rglob(pattern))
-    # Iterate over files and check conditions
-    for path_to_file in suitable_files:
+
+def del_files_accessed_days_ago(paths, days_quantity):
+    for path_to_file in paths:
         last_access_time = path_to_file.stat().st_atime
         diff_btw_dates = datetime.now() - datetime.fromtimestamp(last_access_time)
         # Check if file has been accessed "days_quantity" days
@@ -44,8 +46,19 @@ def main():
         if diff_btw_dates.days == days_quantity:
             if os.path.isfile(path_to_file):
                 os.remove(path_to_file)
+                print(path_to_file)
             else:
                 print('Path is not a file')
+
+
+def main():
+    # Read arguments
+    path, suffix, days = read_arguments()
+    # Search for suitable files with specified suffix in specified path and save their paths
+    pattern = "*" + suffix
+    suitable_paths_to_files = list(pathlib.Path(path).rglob(pattern))
+    # Iterate over files and check conditions, if condition is true - delete file
+    del_files_accessed_days_ago(suitable_paths_to_files, days)
 
 
 if __name__ == '__main__':
