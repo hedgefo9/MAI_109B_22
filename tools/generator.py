@@ -98,7 +98,6 @@ def delete_trash_dirs(path_to_lab: str) -> None:
 
 def generate_repository() -> None:
     list_of_user = [os.path.join(START_PATH, user) for user in os.listdir(START_PATH) if os.path.isdir(os.path.join(START_PATH, user))]
-    print(list_of_user)
     for path_to_user in list_of_user:
         if os.path.basename(path_to_user).startswith('.'):
             continue

@@ -20,7 +20,7 @@ def build():
 
 
 def run_tests():
-    os.system('make tests')
+    os.system('make test')
 
 
 def groub_by_labs(files: List[str]) -> Dict[str, str]:
