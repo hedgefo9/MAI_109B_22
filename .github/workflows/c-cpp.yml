@@ -19,7 +19,7 @@ jobs:
           if [[ -n ${LIST_CHECK_FILES} ]]
           then
             sudo apt install -y clang-tidy-14
-            python3 ./tools/run-clang-tidy -clang-tidy-binary clang-tidy-14 -p build_debug -q -j$(nproc) ${LIST_CHECK_FILES}
+            python3 ./tools/run-clang-tidy.py -clang-tidy-binary clang-tidy-14 -p build_debug -q -j$(nproc) ${LIST_CHECK_FILES}
           else
             echo "Nothing check in clang-tidy"
           fi
@@ -31,7 +31,7 @@ jobs:
           LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
           if [[ -n ${LIST_CHECK_FILES} ]]
           then
-            python3 ./tools/run-project --run_type build --files ${LIST_CHECK_FILES}
+            python3 ./tools/run-project.py --run_type build --files ${LIST_CHECK_FILES}
           else
             echo "Nothing to build"
           fi
@@ -43,7 +43,7 @@ jobs:
           LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
           if [[ -n ${LIST_CHECK_FILES} ]]
           then
-            python3 ./tools/run-project --run_type tests --files ${LIST_CHECK_FILES}
+            python3 ./tools/run-project.py --run_type tests --files ${LIST_CHECK_FILES}
           else
             echo "Nothing to test"
           fi
