@@ -8,13 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: create temp develop
-      run: |
-          $(git checkout -f -b develop trunk)
     - uses: actions/checkout@v3
     - name: Run clang-tidy
       run: |
-          [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=develop
+          [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=upstream/trunk
           echo "${BRANCH_VAR}"
           echo "$(git diff --name-only ${BRANCH_VAR})"
           LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
