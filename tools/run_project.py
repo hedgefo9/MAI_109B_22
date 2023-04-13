@@ -27,6 +27,7 @@ def run_tests():
 def groub_by_labs(files: List[str]) -> Dict[str, str]:
     labs_category: Dict[str, str] = {}
     for file in files:
+        lab = 'trash'
         file_copy = (copy.deepcopy(file))
         while(file_copy != '.'):
             if 'lab' in os.path.basename(file_copy):
