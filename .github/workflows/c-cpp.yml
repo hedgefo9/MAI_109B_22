@@ -12,7 +12,7 @@ jobs:
     - name: Build with make
       run: |
           git fetch origin trunk:refs/remotes/origin/trunk
-          [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=Maxsmile123:${GITHUB_BASE_REF}
+          [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=origin/trunk
           echo "${BRANCH_VAR}"
           echo "$(git diff --name-only ${BRANCH_VAR})"
           LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
@@ -39,7 +39,7 @@ jobs:
     - name: Run tests
       run: |
           git fetch origin trunk:refs/remotes/origin/trunk
-          [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=Maxsmile123:${GITHUB_BASE_REF}
+          [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=origin/trunk
           echo "${BRANCH_VAR}"
           echo "$(git diff --name-only ${BRANCH_VAR})"
           LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
