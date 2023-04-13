@@ -1,5 +1,6 @@
 import argparse
 import os
+import copy
 from typing import List
 from typing import Dict
 
@@ -26,7 +27,13 @@ def run_tests():
 def groub_by_labs(files: List[str]) -> Dict[str, str]:
     labs_category: Dict[str, str] = {}
     for file in files:
-        lab = file.split('/')[2]
+        file_copy = (copy.deepcopy(file))
+        while(file_copy != '.'):
+            if 'lab' in os.path.basename(file_copy):
+                lab = os.path.basename(file_copy)
+                break
+            else:
+                file_copy = os.path.dirname(file_copy)
         labs_category[lab] = file.split(lab)[0]
 
     return labs_category
