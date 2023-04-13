@@ -19,7 +19,7 @@ jobs:
           if [[ -n ${LIST_CHECK_FILES} ]]
           then
             sudo apt install -y clang-tidy-14
-            python3 tools/run_clang_tidy.py -clang-tidy-binary clang-tidy-14 -p build_debug -q -j$(nproc) ${LIST_CHECK_FILES}
+            python3 tools/run_clang_tidy.py -clang-tidy-binary clang-tidy-14 -q ${LIST_CHECK_FILES}
           else
             echo "Nothing check in clang-tidy"
           fi
