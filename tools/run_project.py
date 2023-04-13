@@ -1,6 +1,6 @@
 import argparse
 import os
-import copy
+import re
 from typing import List
 from typing import Dict
 
@@ -27,15 +27,14 @@ def run_tests():
 def groub_by_labs(files: List[str]) -> Dict[str, str]:
     labs_category: Dict[str, str] = {}
     for file in files:
-        lab = 'trash'
-        file_copy = (copy.deepcopy(file))
-        while(file_copy != '.'):
-            if 'lab' in os.path.basename(file_copy):
-                lab = os.path.basename(file_copy)
-                break
-            else:
-                file_copy = os.path.dirname(file_copy)
-        labs_category[lab] = file.split(lab)[0]
+        search_result = re.search('lab2[0-9]', file)
+        if search_result is None:
+            search_result = re.search('KP[0-9]', file)
+        if search_result is None:
+            continue
+        else:
+            lab = search_result.group()
+        labs_category[lab] = os.path.join(file.split(lab)[0], lab)
 
     return labs_category
 
@@ -55,10 +54,6 @@ def main():
                 build()
             elif run_type == 'tests':
                 run_tests()
-
-
-
-
 
 
 if __name__ == '__main__':
