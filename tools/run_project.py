@@ -9,7 +9,7 @@ def get_args():
     parser.add_argument('--files', dest='files', help='list of changes files', default=[])
 
     args = parser.parse_args()
-    if args.run_type != 'build' or args.run_type != 'tests':
+    if args.run_type != 'build' and args.run_type != 'tests':
         raise Exception('You need to choose on of options: build or tests')
 
     return args.run_type, args.files
