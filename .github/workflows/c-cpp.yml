@@ -9,6 +9,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Build with make
+      run: |
+          git fetch origin trunk:refs/remotes/origin/trunk
+          [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=Maxsmile123:${GITHUB_BASE_REF}
+          echo "${BRANCH_VAR}"
+          echo "$(git diff --name-only ${BRANCH_VAR})"
+          LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
+          if [[ -n ${LIST_CHECK_FILES} ]]
+          then
+            python3 tools/run_project.py --run_type build --files ${LIST_CHECK_FILES}
+          else
+            echo "Nothing to build"
+          fi
     - name: Run clang-tidy
       run: |
           git fetch origin trunk:refs/remotes/origin/trunk
@@ -23,20 +36,9 @@ jobs:
           else
             echo "Nothing check in clang-tidy"
           fi
-    - name: Build with make
-      run: |
-          [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=Maxsmile123:${GITHUB_BASE_REF}
-          echo "${BRANCH_VAR}"
-          echo "$(git diff --name-only ${BRANCH_VAR})"
-          LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
-          if [[ -n ${LIST_CHECK_FILES} ]]
-          then
-            python3 tools/run_project.py --run_type build --files ${LIST_CHECK_FILES}
-          else
-            echo "Nothing to build"
-          fi
     - name: Run tests
       run: |
+          git fetch origin trunk:refs/remotes/origin/trunk
           [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=Maxsmile123:${GITHUB_BASE_REF}
           echo "${BRANCH_VAR}"
           echo "$(git diff --name-only ${BRANCH_VAR})"
