@@ -1,6 +1,4 @@
-#include <iostream>
 #include "../include/Tree.hpp"
-
 
 int main() {
     Tree<int> bt;
