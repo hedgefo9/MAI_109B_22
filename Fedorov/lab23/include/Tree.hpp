@@ -7,16 +7,22 @@ class Tree {
 private:
     Node<T> *root = nullptr;
 public:
-    Tree();
-    explicit Tree(Node<T>* node);
+    Tree()=default;
+    explicit Tree(Node<T> *node);
+
     Node<T> *get_root();
-    void insert_node(T value);
-    void print_tree() const;
-    void delete_node(T value);
+    void insert_node(const T &value);
+    void delete_node(const T &value);
     int64_t count_nodes() const;
+    void print_tree() const;
+    void bypass() const;
+
+    template<typename U>
+    friend std::ostream &operator<<(std::ostream &o, const Tree<U> &x);
+
     ~Tree();
 };
 
-#include "../src/Tree.cpp"
 
+#include "../src/Tree.cpp"
 #endif
