@@ -1,7 +1,7 @@
 #include "../include/Tree.hpp"
 
 template<typename T>
-Tree<T>::Tree(Node<T> *node): root(node) {}
+Tree<T>::Tree(Node<T>* const node): root(node) {}
 
 template<typename T>
 Node<T> *Tree<T>::get_root() {

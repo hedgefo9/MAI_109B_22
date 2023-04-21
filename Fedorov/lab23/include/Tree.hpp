@@ -7,8 +7,8 @@ class Tree {
 private:
     Node<T> *root = nullptr;
 public:
-    Tree()=default;
-    explicit Tree(Node<T> *node);
+    Tree() = default;
+    explicit Tree(Node<T>* const node);
 
     Node<T> *get_root();
     void insert_node(const T &value);
@@ -18,7 +18,7 @@ public:
     void bypass() const;
 
     template<typename U>
-    friend std::ostream &operator<<(std::ostream &o, const Tree<U> &x);
+    friend std::ostream &operator<<(std::ostream &out, const Tree<U> &t);
 
     ~Tree();
 };

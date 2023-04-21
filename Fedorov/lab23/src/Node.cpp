@@ -75,7 +75,7 @@ void Node<T>::add_leaf(Node *current_node, const T &value) {
 }
 
 template<typename T>
-Node<T> *Node<T>::min_value_node(Node<T> *node) {
+Node<T> *Node<T>::min_value_node(Node<T>* const node) const {
     Node<T> *current = node;
     // Go down to search for leftmost leaf
     while (current && current->left != nullptr)
