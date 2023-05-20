@@ -4,8 +4,6 @@
 
 Matrix::Matrix() {
     mat = Vector<int64_t>({0, 0});
-    m_sz = 0;
-    n_sz = 0;
     line_beginnings = Vector<size_t>();
 }
 
