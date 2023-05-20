@@ -74,11 +74,10 @@ void Vector<T>::pop_back(){
 
 template<typename T>
 T& Vector<T>::at(const size_t &index) {
-    if (0 <= index and index < sz) {
-        return *(arr + index);
-    } else {
+    if (index >= sz) {
         throw std::out_of_range("Invalid index");
     }
+    return *(arr + index);
 }
 
 template<typename T>
