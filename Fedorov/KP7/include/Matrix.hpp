@@ -5,8 +5,8 @@
 class Matrix {
 private:
     Vector<int64_t> mat;
-    size_t m_sz;
-    size_t n_sz;
+    size_t m_sz = 0;
+    size_t n_sz = 0;
     Vector<size_t> line_beginnings;
 public:
     Matrix();
