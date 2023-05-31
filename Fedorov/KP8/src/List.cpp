@@ -38,15 +38,12 @@ void List<T>::pop_back() {
         delete head;
         head = nullptr;
         --sz;
-    } else {
-        std::cout << "You can't use pop_back() for empty list!" << std::endl;
     }
 }
 
 template <typename T>
 void List<T>::pop_front() {
     if (head == nullptr) {
-        std::cout << "You can't use pop_front() for empty list!" << std::endl;
         return;
     }
     head = head->next;
@@ -54,7 +51,7 @@ void List<T>::pop_front() {
 }
 
 template <typename T>
-Iterator<T> List<T>::insert(Iterator<T> pos, const T& value) {
+Iterator<T> List<T>::insert(const Iterator<T>& pos, const T& value) {
     if (pos != end()) {
         Node<T>* curr_node = pos.node;
         Node<T>* prev_node = curr_node->prev;
@@ -75,7 +72,7 @@ Iterator<T> List<T>::insert(Iterator<T> pos, const T& value) {
 }
 
 template <typename T>
-Iterator<T> List<T>::erase(Iterator<T> pos) {
+Iterator<T> List<T>::erase(const Iterator<T>& pos) {
     if (pos == end()) {
         std::cout << "You can't erase at this pos!" << std::endl;
         return end();
@@ -105,7 +102,7 @@ Iterator<T> List<T>::erase(Iterator<T> pos) {
 }
 
 template <typename T>
-Iterator<T> List<T>::erase(Iterator<T> begin_pos, Iterator<T> end_pos) {
+Iterator<T> List<T>::erase(const Iterator<T>& begin_pos, const Iterator<T>& end_pos) {
     Iterator<T> curr_node = begin_pos;
     while (curr_node != end_pos) {
         curr_node = erase(curr_node);

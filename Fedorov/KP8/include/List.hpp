@@ -18,9 +18,9 @@ public:
     void push_front(const T& value);
     void pop_back();
     void pop_front();
-    Iterator<T> insert(Iterator<T> pos, const T& value);
-    Iterator<T> erase(Iterator<T> pos);
-    Iterator<T> erase(Iterator<T> begin_pos, Iterator<T> end_pos);
+    Iterator<T> insert(const Iterator<T>& pos, const T& value);
+    Iterator<T> erase(const Iterator<T>& pos);
+    Iterator<T> erase(const Iterator<T>& begin_pos, const Iterator<T>& end_pos);
     void clear();
     void shift_cyclically();
 

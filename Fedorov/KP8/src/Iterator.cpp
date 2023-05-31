@@ -37,17 +37,17 @@ Iterator<T> Iterator<T>::operator--() {
 
 template<typename T>
 Iterator<T> Iterator<T>::operator+(int64_t val) {
-    if (node) {
-        if (val > 0) {
-            do {
-                --val;
-                node = node->next;
-            } while (val && node);
-        } else if (val < 0) {
-            do {
-                ++val;
-                node = node->prev;
-            } while (val && node);
+    if (node == nullptr)
+        return *this;
+    if (val >= 0) {
+        while (val && node) {
+            --val;
+            node = node->next;
+        }
+    } else {
+        while (val && node) {
+            ++val;
+            node = node->prev;
         }
     }
     return *this;
