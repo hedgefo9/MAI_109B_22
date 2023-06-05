@@ -14,16 +14,19 @@ private:
     Node* prev = nullptr;
     Node* next = nullptr;
 
+    Node<T>* get_copy(Node<T>* x);
 public:
     friend class Deque<T>;
     friend class Iterator<T>;
     friend class ExpressionTree;
 
     Node() = default;
-    explicit Node(const T& _data);
-    Node(const T& _data, Node* _prev, Node* _next);
+    Node(const T& _data);
+    Node(const T& _data, Node<T>* _prev, Node<T>* _next);
+    Node<T>* get_copy();
     ~Node() = default;
 };
+
 
 
 #include "../src/Node.cpp"

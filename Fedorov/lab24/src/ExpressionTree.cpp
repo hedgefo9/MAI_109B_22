@@ -99,8 +99,8 @@ void ExpressionTree::delete_branch(Node<char> *curr_node) {
     delete_branch(curr_node->prev);
     delete_branch(curr_node->next);
 
-    curr_node = nullptr;
     delete curr_node;
+    curr_node = nullptr;
 }
 
 void ExpressionTree::print_tree(Node<char> *curr_node, const size_t &height) const {
@@ -136,27 +136,33 @@ ExpressionTree::~ExpressionTree() {
     delete_branch(root);
 }
 
-Node<char> *ExpressionTree::lab_task(Node<char> *curr_node) {
-    if (curr_node == nullptr) return curr_node;
+Node<char>* ExpressionTree::lab_task(Node<char> *curr_node) {
+    if (curr_node == nullptr) return nullptr;
 
     if (curr_node->data == '^' and curr_node->next and curr_node->next->data > '1') {
-        Node<char> *new_node = new Node<char>('*');
-        new_node->prev = curr_node->prev;
-        new_node->next = curr_node;
-        --new_node->next->next->data;
+        Node<char>* new_node = curr_node->get_copy();
+        curr_node->next = new_node;
+        curr_node->data = '*';
+        --curr_node->next->next->data;
 
-        new_node->prev = lab_task(new_node->prev);
-        new_node->next = lab_task(new_node->next);
+        curr_node->prev = lab_task(curr_node->prev);
+        curr_node->next = lab_task(curr_node->next);
 
-        return new_node;
-    } else if (curr_node->data == '^' and curr_node->next and curr_node->next->data == '1') {
-        Node<char> *new_node = curr_node->prev;
+        return curr_node;
+    } else if (curr_node->data == '^' and curr_node->next->data == '1') {
+        Node<char>* tmp = curr_node;
+        curr_node = tmp->prev;
+        delete tmp;
 
-        return new_node;
+        curr_node->prev = lab_task(curr_node->prev);
+        curr_node->next = lab_task(curr_node->next);
+
+        return curr_node;
     }
 
     curr_node->prev = lab_task(curr_node->prev);
     curr_node->next = lab_task(curr_node->next);
+
     return curr_node;
 }
 

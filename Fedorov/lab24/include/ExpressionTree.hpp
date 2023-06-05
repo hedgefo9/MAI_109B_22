@@ -26,7 +26,7 @@ public:
     void print_tree(Node<char> *curr_node, const size_t &height = 0) const;
 
     void lab_task();
-    Node<char> *lab_task(Node<char> *curr_node);
+    Node<char>* lab_task(Node<char> *curr_node);
 };
 
 #include "../src/ExpressionTree.cpp"

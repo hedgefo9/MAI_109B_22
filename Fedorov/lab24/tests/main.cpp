@@ -4,7 +4,7 @@
 
 
 int main() {
-    std::string e1 = "((x+8)^4+2)";
+    std::string e1 = "((x+8)^4+8)+8";
     ExpressionTree tree(e1);
 
     std::cout << "Infix notation: ";
