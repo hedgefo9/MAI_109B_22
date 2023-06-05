@@ -29,7 +29,7 @@ int main() {
     std::cout << "a: ";
     int64_t i = 0;
     for (auto it = a.begin(); it != a.end(); --it) {
-        *it += (++i) * 3;
+        it.get_node()->set_data(it.get_node()->get_data() + (++i) * 3);
         std::cout << *it << "\t";
     }
     std::cout << std::endl;

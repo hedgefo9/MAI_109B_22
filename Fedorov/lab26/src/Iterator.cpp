@@ -9,19 +9,14 @@ Node<T> *Iterator<T>::get_node() {
 }
 
 template<typename T>
-T &Iterator<T>::operator*() {
-    return node->data;
-}
-
-template<typename T>
-T &Iterator<T>::operator*() const {
-    return node->data;
+T Iterator<T>::operator*() const {
+    return node->get_data();
 }
 
 template<typename T>
 Iterator<T> Iterator<T>::operator++() {
     if (node != nullptr) {
-        node = node->next;
+        node = node->get_next();
     }
     return *this;
 }
@@ -29,7 +24,7 @@ Iterator<T> Iterator<T>::operator++() {
 template<typename T>
 Iterator<T> Iterator<T>::operator--() {
     if (node) {
-        node = node->prev;
+        node = node->get_prev();
     }
     return *this;
 }
@@ -42,12 +37,12 @@ Iterator<T> Iterator<T>::operator+(int64_t val) {
     if (val >= 0) {
         while (val && node) {
             --val;
-            node = node->next;
+            node = node->get_next();
         }
     } else {
         while (val && node) {
             ++val;
-            node = node->prev;
+            node = node->get_prev();
         }
     }
     return *this;
