@@ -20,10 +20,10 @@ void Table<T>::heapify(const Vector<Line<T>> &arr, int64_t n, int64_t i) {
     int64_t l = 2 * i + 1;
     int64_t r = 2 * i + 2;
 
-    if (l < n && arr[l].key > arr[largest].key)
+    if (l < n && arr[l].get_key() > arr[largest].get_key())
         largest = l;
 
-    if (r < n && arr[r].key > arr[largest].key)
+    if (r < n && arr[r].get_key() > arr[largest].get_key())
         largest = r;
 
     if (largest != i) {
@@ -51,9 +51,9 @@ Line<T> Table<T>::search(const T &key) {
 
     while (l <= r) {
         size_t m = l + (r - l) / 2;
-        if (lines[m].key == key)
+        if (lines[m].get_key() == key)
             return lines[m];
-        if (lines[m].key < key)
+        if (lines[m].get_key() < key)
             l = m + 1;
         else
             r = m - 1;

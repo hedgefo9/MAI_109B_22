@@ -12,12 +12,11 @@ private:
     T key;
     std::string data;
 public:
-    friend class Table<T>;
 
     Line() = default;
     ~Line() = default;
-    T& get_key();
-    std::string& get_data();
+    T get_key();
+    std::string get_data();
     Line(const T& key, const std::string& data);
 
     bool operator<(const Line<T>& l1) const;

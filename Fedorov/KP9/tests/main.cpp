@@ -3,11 +3,11 @@
 #include "../src/benchmark.cpp"
 
 int main() {
-
     benchmark();
 
     Table<int64_t> t1;
-
+    std::cout << "____________________________________________________" << std::endl;
+    std::cout << "Table interface check:" << std::endl;
     t1.push_back(7, "Have where I have none");
     t1.push_back(1799, "You might never find your place");
     t1.push_back(11, "They'll just steer your wrong");
