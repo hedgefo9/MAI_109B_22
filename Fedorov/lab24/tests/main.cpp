@@ -22,9 +22,11 @@ int main() {
     std::cout << "Lab task (reducing expression with the help of"
               << " replacement power operation to multiplication operation): " << std::endl;
     tree.lab_task();
+
     std::cout << "Infix notation: ";
     tree.print_infix_expr(tree.get_root());
     std::cout << std::endl;
+    
     std::cout << "Expression tree: " << std::endl;
     tree.print_tree(tree.get_root());
 }

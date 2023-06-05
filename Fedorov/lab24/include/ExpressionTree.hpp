@@ -11,6 +11,7 @@ private:
 
     size_t find_priority(char c) const;
     bool is_operator(char o) const;
+    Node<char>* lab_task(Node<char> *curr_node);
 public:
 
     ExpressionTree();
@@ -24,9 +25,7 @@ public:
     void print_postfix_expr(Node<char> *curr_node) const;
     void print_infix_expr(Node<char> *curr_node) const;
     void print_tree(Node<char> *curr_node, const size_t &height = 0) const;
-
     void lab_task();
-    Node<char>* lab_task(Node<char> *curr_node);
 };
 
 #include "../src/ExpressionTree.cpp"

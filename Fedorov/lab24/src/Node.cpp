@@ -11,13 +11,13 @@ Node<T> *Node<T>::get_copy(Node<T> *x) {
     if (x == nullptr)
         return nullptr;
 
-    Node<T> *c = new Node<T>();
+    Node<T> *copy = new Node<T>();
 
-    c->data = x->data;
-    c->prev = get_copy(x->prev);
-    c->next = get_copy(x->next);
+    copy->data = x->data;
+    copy->prev = get_copy(x->prev);
+    copy->next = get_copy(x->next);
 
-    return c;
+    return copy;
 }
 
 template<typename T>

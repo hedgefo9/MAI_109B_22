@@ -141,23 +141,21 @@ Node<char>* ExpressionTree::lab_task(Node<char> *curr_node) {
 
     if (curr_node->data == '^' and curr_node->next and curr_node->next->data > '1') {
         Node<char>* new_node = curr_node->get_copy();
+        Node<char>* tmp = curr_node->next;
         curr_node->next = new_node;
+
+        delete tmp;
+        tmp = nullptr;
+
         curr_node->data = '*';
         --curr_node->next->next->data;
-
-        curr_node->prev = lab_task(curr_node->prev);
-        curr_node->next = lab_task(curr_node->next);
-
-        return curr_node;
     } else if (curr_node->data == '^' and curr_node->next->data == '1') {
         Node<char>* tmp = curr_node;
-        curr_node = tmp->prev;
+        curr_node = curr_node->prev;
+        delete tmp->next;
+        tmp->next = nullptr;
         delete tmp;
-
-        curr_node->prev = lab_task(curr_node->prev);
-        curr_node->next = lab_task(curr_node->next);
-
-        return curr_node;
+        tmp = nullptr;
     }
 
     curr_node->prev = lab_task(curr_node->prev);
