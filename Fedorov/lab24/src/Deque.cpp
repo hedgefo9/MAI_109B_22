@@ -13,7 +13,7 @@ void Deque<T>::push_back(const T &value) {
     Node<T> *curr_last_node = tail;
 
     Node<T> *new_node = new Node<T>(value, nullptr, curr_last_node);
-    curr_last_node->prev = new_node;
+    curr_last_node->set_prev(new_node);
     tail = new_node;
     ++sz;
 }
@@ -29,7 +29,7 @@ void Deque<T>::push_front(const T &value) {
     Node<T> *curr_first_node = head;
 
     Node<T> *new_node = new Node<T>(value, curr_first_node, nullptr);
-    curr_first_node->next = new_node;
+    curr_first_node->set_next(new_node);
     head = new_node;
     ++sz;
 }
@@ -38,17 +38,17 @@ template<typename T>
 T Deque<T>::pop_back() {
     if (sz >= 2) {
         Node<T> *curr_last = tail;
-        Node<T> *new_last = curr_last->next;
+        Node<T> *new_last = curr_last->get_next();
 
-        new_last->prev = nullptr;
-        T old_data = curr_last->data;
+        new_last->set_prev(nullptr);
+        T old_data = curr_last->get_data();
         tail = new_last;
         delete curr_last;
         --sz;
 
         return old_data;
     } else if (sz == 1) {
-        T old_data = head->data;
+        T old_data = head->get_data();
         delete head;
         head = nullptr;
         tail = nullptr;
@@ -63,17 +63,17 @@ template<typename T>
 T Deque<T>::pop_front() {
     if (sz >= 2) {
         Node<T> *curr_first = head;
-        Node<T> *new_first = curr_first->prev;
+        Node<T> *new_first = curr_first->get_prev();
 
-        new_first->next = nullptr;
-        T old_data = curr_first->data;
+        new_first->set_next(nullptr);
+        T old_data = curr_first->get_data();
         head = new_first;
         delete curr_first;
         --sz;
 
         return old_data;
     } else if (sz == 1) {
-        T old_data = head->data;
+        T old_data = head->get_data();
 
         delete head;
         head = nullptr;
@@ -125,7 +125,7 @@ Deque<T>::~Deque() {
     Node<T> *curr_node = head;
     while (curr_node != nullptr) {
         Node<T> *tmp = curr_node;
-        curr_node = curr_node->prev;
+        curr_node = curr_node->get_prev();
         delete tmp;
     }
 }
@@ -148,8 +148,8 @@ Deque<T> &Deque<T>::operator=(const Deque<T> &x) {
 
     Node<T> *curr_node = x.head;
     while (curr_node != nullptr) {
-        push_back(curr_node->data);
-        curr_node = curr_node->prev;
+        push_back(curr_node->get_data());
+        curr_node = curr_node->get_prev();
     }
 
     return *this;
@@ -169,8 +169,8 @@ template<typename T>
 void Deque<T>::concatenate(const Deque<T> &x) {
     Node<T> *curr_node = x.head;
     while (curr_node != nullptr) {
-        push_back(curr_node->data);
-        curr_node = curr_node->prev;
+        push_back(curr_node->get_data());
+        curr_node = curr_node->get_prev();
     }
 }
 
@@ -183,18 +183,18 @@ template <typename T>
 Deque<T> Deque<T>::sort(Deque<T> x) {
     if (x.size() <= 1)
         return x;
-    auto barrier = x.begin().node->data;
+    auto barrier = x.begin().get_node()->get_data();
     Deque<T> L;
     Deque<T> M;
     Deque<T> R;
 
     for (auto it = x.begin(); it != x.end(); --it) {
-        if (it.node->data < barrier) {
-            L.push_back(it.node->data);
-        } else if (it.node->data == barrier) {
-            M.push_back(it.node->data);
+        if (it.get_node()->get_data() < barrier) {
+            L.push_back(it.get_node()->get_data());
+        } else if (it.get_node()->get_data() == barrier) {
+            M.push_back(it.get_node()->get_data());
         } else {
-            R.push_back(it.node->data);
+            R.push_back(it.get_node()->get_data());
         }
     }
 
@@ -205,7 +205,7 @@ Deque<T> Deque<T>::sort(Deque<T> x) {
 
     x.clear();
     for (auto it = L.begin(); it != L.end(); --it) {
-        x.push_back(it.node->data);
+        x.push_back(it.get_node()->get_data());
     }
 
     return x;

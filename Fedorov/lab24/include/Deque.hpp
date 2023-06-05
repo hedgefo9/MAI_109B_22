@@ -10,8 +10,12 @@ private:
     size_t sz = 0;
 
     Deque<T> sort(Deque<T> x);
+
 public:
     Deque() = default;
+    ~Deque();
+    Deque(const Deque<T> &x);
+    Deque<T>& operator=(const Deque<T> &x);
 
     Iterator<T> begin();
     Iterator<T> end();
@@ -29,10 +33,6 @@ public:
 
     size_t size() const;
     bool empty() const;
-
-    ~Deque();
-    Deque(const Deque<T> &x);
-    Deque<T>& operator=(const Deque<T> &x);
 };
 
 

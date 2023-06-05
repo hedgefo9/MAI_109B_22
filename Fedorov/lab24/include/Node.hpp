@@ -25,6 +25,14 @@ public:
     Node(const T& _data, Node<T>* _prev, Node<T>* _next);
     Node<T>* get_copy();
     ~Node() = default;
+
+    T get_data();
+    Node* get_prev();
+    Node* get_next();
+
+    void set_data(const T& _data);
+    void set_prev(Node<T> *_prev);
+    void set_next(Node<T> *_next);
 };
 
 
