@@ -21,7 +21,7 @@ public:
     T pop_back();
     T pop_front();
     void clear();
-    void concatenate(const Deque<T> &x);
+    void concatenate(Deque<T> &x);
     void sort();
 
     template<typename U>

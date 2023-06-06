@@ -1,7 +1,6 @@
 #include <memory>
 #include "../include/Deque.hpp"
 
-
 template<typename T>
 void Deque<T>::push_back(const T &value) {
     if (head == nullptr) {
@@ -127,6 +126,7 @@ Deque<T>::~Deque() {
         Node<T> *tmp = curr_node;
         curr_node = curr_node->get_prev();
         delete tmp;
+        tmp = nullptr;
     }
 }
 
@@ -166,23 +166,38 @@ bool Deque<T>::empty() const {
 }
 
 template<typename T>
-void Deque<T>::concatenate(const Deque<T> &x) {
-    Node<T> *curr_node = x.head;
-    while (curr_node != nullptr) {
-        push_back(curr_node->get_data());
-        curr_node = curr_node->get_prev();
+void Deque<T>::concatenate(Deque<T> &x) {
+    if (x.sz == 0) {
+        return;
     }
+
+    if (head != nullptr) {
+        tail->set_prev(x.head);
+        x.head->set_next(tail);
+        tail = x.tail;
+        x.head = nullptr;
+        x.tail = nullptr;
+    } else {
+        head = x.head;
+        tail = x.tail;
+        x.head = nullptr;
+        x.tail = nullptr;
+    }
+
+    sz += x.sz;
+    x.sz = 0;
 }
 
-template <typename T>
+template<typename T>
 void Deque<T>::sort() {
     *this = sort(*this);
 }
 
-template <typename T>
+template<typename T>
 Deque<T> Deque<T>::sort(Deque<T> x) {
     if (x.size() <= 1)
         return x;
+
     auto barrier = x.begin().get_node()->get_data();
     Deque<T> L;
     Deque<T> M;
@@ -200,13 +215,11 @@ Deque<T> Deque<T>::sort(Deque<T> x) {
 
     L = sort(L);
     R = sort(R);
-    L.concatenate(M);
-    L.concatenate(R);
 
     x.clear();
-    for (auto it = L.begin(); it != L.end(); --it) {
-        x.push_back(it.get_node()->get_data());
-    }
+    x.concatenate(L);
+    x.concatenate(M);
+    x.concatenate(R);
 
     return x;
 }
