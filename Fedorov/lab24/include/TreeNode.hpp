@@ -1,5 +1,5 @@
-#ifndef NODE_HPP_INCLUDED
-#define NODE_HPP_INCLUDED
+#ifndef TREENODE_HPP_INCLUDED
+#define TREENODE_HPP_INCLUDED
 #include <iostream>
 
 class TreeNode {
@@ -10,7 +10,6 @@ private:
 
     TreeNode* get_copy(TreeNode* x);
 public:
-    friend class ExpressionTree;
 
     TreeNode() = default;
     explicit TreeNode(const char& _data);
@@ -18,15 +17,14 @@ public:
     TreeNode* get_copy();
     ~TreeNode() = default;
 
-    char get_data();
-    TreeNode* get_prev();
-    TreeNode* get_next();
+    char get_data() const;
+    TreeNode* get_prev() const;
+    TreeNode* get_next() const;
 
     void set_data(const char& _data);
     void set_prev(TreeNode *_prev);
     void set_next(TreeNode *_next);
 };
-
 
 
 #include "../src/TreeNode.cpp"

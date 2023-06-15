@@ -24,14 +24,14 @@ std::string ExpressionTree::get_postfix_expr(const std::string &expr) {
 
             storage.push_front(c);
         } else if (c == ')') {
-            while (storage.begin().get_node()->data != '(') {
+            while (storage.begin().get_node()->get_data() != '(') {
                 postfix += storage.pop_front();
             }
             storage.pop_front();
         } else {
             if (c == '-' && expr[i - 1] == '(') c = '~';
 
-            while (!storage.empty() && (find_priority(storage.begin().get_node()->data) >= find_priority(c))) {
+            while (!storage.empty() && (find_priority(storage.begin().get_node()->get_data()) >= find_priority(c))) {
                 postfix += storage.pop_front();
             }
             storage.push_front(c);
@@ -67,29 +67,29 @@ TreeNode *ExpressionTree::build_tree(const std::string &postfix_notation) {
         }
     }
 
-    return storage.begin().get_node()->data;
+    return storage.begin().get_node()->get_data();
 }
 
 void ExpressionTree::print_postfix_expr(const TreeNode *curr_node) const {
     if (curr_node == nullptr) return;
 
-    print_postfix_expr(curr_node->prev);
-    print_postfix_expr(curr_node->next);
-    std::cout << curr_node->data;
+    print_postfix_expr(curr_node->get_prev());
+    print_postfix_expr(curr_node->get_next());
+    std::cout << curr_node->get_data();
 }
 
 void ExpressionTree::print_infix_expr(const TreeNode *curr_node) const {
     if (curr_node == nullptr) return;
 
-    if (is_operator(curr_node->data)) {
+    if (is_operator(curr_node->get_data())) {
         std::cout << '(';
     }
 
-    print_infix_expr(curr_node->prev);
-    std::cout << curr_node->data;
-    print_infix_expr(curr_node->next);
+    print_infix_expr(curr_node->get_prev());
+    std::cout << curr_node->get_data();
+    print_infix_expr(curr_node->get_next());
 
-    if (is_operator(curr_node->data)) {
+    if (is_operator(curr_node->get_data())) {
         std::cout << ')';
     }
 }
@@ -97,8 +97,8 @@ void ExpressionTree::print_infix_expr(const TreeNode *curr_node) const {
 void ExpressionTree::delete_branch(const TreeNode *curr_node) {
     if (curr_node == nullptr) return;
 
-    delete_branch(curr_node->prev);
-    delete_branch(curr_node->next);
+    delete_branch(curr_node->get_prev());
+    delete_branch(curr_node->get_next());
 
     delete curr_node;
     curr_node = nullptr;
@@ -106,12 +106,12 @@ void ExpressionTree::delete_branch(const TreeNode *curr_node) {
 
 void ExpressionTree::print_tree(const TreeNode *curr_node, const size_t &height) const {
     if (curr_node != nullptr) {
-        print_tree(curr_node->next, height + 1);
+        print_tree(curr_node->get_next(), height + 1);
         for (size_t i = 0; i < height; ++i) {
             std::cout << "\t";
         }
-        std::cout << curr_node->data << "\n";
-        print_tree(curr_node->prev, height + 1);
+        std::cout << curr_node->get_data() << "\n";
+        print_tree(curr_node->get_prev(), height + 1);
     }
 }
 
@@ -137,30 +137,34 @@ ExpressionTree::~ExpressionTree() {
     delete_branch(root);
 }
 
-TreeNode* ExpressionTree::lab_task(TreeNode *curr_node) {
+TreeNode *ExpressionTree::lab_task(TreeNode *curr_node) {
     if (curr_node == nullptr) return nullptr;
 
-    if (curr_node->data == '^' and curr_node->next and curr_node->next->data > '1') {
-        TreeNode* new_node = curr_node->get_copy();
-        TreeNode* tmp = curr_node->next;
-        curr_node->next = new_node;
+    if (curr_node->get_data() == '^' and curr_node->get_next()
+        and curr_node->get_next()->get_data() > '1') {
+
+        TreeNode *new_node = curr_node->get_copy();
+        TreeNode *tmp = curr_node->get_next();
+        curr_node->set_next(new_node);
 
         delete tmp;
         tmp = nullptr;
 
-        curr_node->data = '*';
-        --curr_node->next->next->data;
-    } else if (curr_node->data == '^' and curr_node->next->data == '1') {
-        TreeNode* tmp = curr_node;
-        curr_node = curr_node->prev;
-        delete tmp->next;
-        tmp->next = nullptr;
+        curr_node->set_data('*');
+        curr_node->get_next()->get_next()->set_data(curr_node->get_next()->get_next()->get_data() - 1);
+    } else if (curr_node->get_data() == '^' and curr_node->get_next()
+               and curr_node->get_next()->get_data() == '1') {
+
+        TreeNode *tmp = curr_node;
+        curr_node = curr_node->get_prev();
+        delete tmp->get_next();
+        tmp->set_next(nullptr);
         delete tmp;
         tmp = nullptr;
     }
 
-    curr_node->prev = lab_task(curr_node->prev);
-    curr_node->next = lab_task(curr_node->next);
+    curr_node->set_prev(lab_task(curr_node->get_prev()));
+    curr_node->set_next(lab_task(curr_node->get_next()));
 
     return curr_node;
 }
