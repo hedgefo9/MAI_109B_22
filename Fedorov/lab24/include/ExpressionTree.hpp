@@ -1,30 +1,32 @@
 #ifndef EXPRESSIONTREE_HPP
 #define EXPRESSIONTREE_HPP
 
-#include "Node.hpp"
+#include "TreeNode.hpp"
 #include <iostream>
 #include <string>
 
+#include "../../lab26/include/Deque.hpp"
+
 class ExpressionTree {
 private:
-    Node<char> *root;
+    TreeNode *root;
 
     size_t find_priority(char c) const;
     bool is_operator(char o) const;
-    Node<char>* lab_task(Node<char> *curr_node);
+    TreeNode* lab_task(TreeNode *curr_node);
 public:
 
     ExpressionTree();
     explicit ExpressionTree(const std::string &expression);
     ~ExpressionTree();
-    Node<char> *get_root() const;
+    TreeNode *get_root() const;
 
-    Node<char> *build_tree(const std::string &postfix_notation);
-    void delete_branch(Node<char> *curr_node);
+    TreeNode *build_tree(const std::string &postfix_notation);
+    void delete_branch(const TreeNode *curr_node);
     std::string get_postfix_expr(const std::string &expr);
-    void print_postfix_expr(Node<char> *curr_node) const;
-    void print_infix_expr(Node<char> *curr_node) const;
-    void print_tree(Node<char> *curr_node, const size_t &height = 0) const;
+    void print_postfix_expr(const TreeNode *curr_node) const;
+    void print_infix_expr(const TreeNode *curr_node) const;
+    void print_tree(const TreeNode *curr_node, const size_t &height = 0) const;
     void lab_task();
 };
 

@@ -7,7 +7,7 @@ ExpressionTree::ExpressionTree(const std::string &expression) {
     root = build_tree(postfix);
 }
 
-Node<char> *ExpressionTree::get_root() const {
+TreeNode *ExpressionTree::get_root() const {
     return this->root;
 }
 
@@ -21,6 +21,7 @@ std::string ExpressionTree::get_postfix_expr(const std::string &expr) {
         if (!is_operator(c) && c != '(' && c != ')') {
             postfix += c;
         } else if (c == '(') {
+
             storage.push_front(c);
         } else if (c == ')') {
             while (storage.begin().get_node()->data != '(') {
@@ -43,33 +44,33 @@ std::string ExpressionTree::get_postfix_expr(const std::string &expr) {
     return postfix;
 }
 
-Node<char> *ExpressionTree::build_tree(const std::string &postfix_notation) {
+TreeNode *ExpressionTree::build_tree(const std::string &postfix_notation) {
     if (postfix_notation.length() == 0) return nullptr;
 
-    Deque<Node<char> *> storage;
+    Deque<TreeNode *> storage;
 
     for (char c: postfix_notation) {
         if (c == '~') {
-            Node<char> *node_x = storage.pop_front();
+            TreeNode *node_x = storage.pop_front();
 
-            Node<char> *node = new Node<char>('-', nullptr, node_x);
+            TreeNode *node = new TreeNode('-', nullptr, node_x);
             storage.push_front(node);
         } else if (is_operator(c)) {
-            Node<char> *node_x = storage.pop_front();
+            TreeNode *node_x = storage.pop_front();
 
-            Node<char> *node_y = storage.pop_front();
+            TreeNode *node_y = storage.pop_front();
 
-            Node<char> *node = new Node<char>(c, node_y, node_x);
+            TreeNode *node = new TreeNode(c, node_y, node_x);
             storage.push_front(node);
         } else {
-            storage.push_front(new Node<char>(c));
+            storage.push_front(new TreeNode(c));
         }
     }
 
     return storage.begin().get_node()->data;
 }
 
-void ExpressionTree::print_postfix_expr(Node<char> *curr_node) const {
+void ExpressionTree::print_postfix_expr(const TreeNode *curr_node) const {
     if (curr_node == nullptr) return;
 
     print_postfix_expr(curr_node->prev);
@@ -77,7 +78,7 @@ void ExpressionTree::print_postfix_expr(Node<char> *curr_node) const {
     std::cout << curr_node->data;
 }
 
-void ExpressionTree::print_infix_expr(Node<char> *curr_node) const {
+void ExpressionTree::print_infix_expr(const TreeNode *curr_node) const {
     if (curr_node == nullptr) return;
 
     if (is_operator(curr_node->data)) {
@@ -93,7 +94,7 @@ void ExpressionTree::print_infix_expr(Node<char> *curr_node) const {
     }
 }
 
-void ExpressionTree::delete_branch(Node<char> *curr_node) {
+void ExpressionTree::delete_branch(const TreeNode *curr_node) {
     if (curr_node == nullptr) return;
 
     delete_branch(curr_node->prev);
@@ -103,7 +104,7 @@ void ExpressionTree::delete_branch(Node<char> *curr_node) {
     curr_node = nullptr;
 }
 
-void ExpressionTree::print_tree(Node<char> *curr_node, const size_t &height) const {
+void ExpressionTree::print_tree(const TreeNode *curr_node, const size_t &height) const {
     if (curr_node != nullptr) {
         print_tree(curr_node->next, height + 1);
         for (size_t i = 0; i < height; ++i) {
@@ -136,12 +137,12 @@ ExpressionTree::~ExpressionTree() {
     delete_branch(root);
 }
 
-Node<char>* ExpressionTree::lab_task(Node<char> *curr_node) {
+TreeNode* ExpressionTree::lab_task(TreeNode *curr_node) {
     if (curr_node == nullptr) return nullptr;
 
     if (curr_node->data == '^' and curr_node->next and curr_node->next->data > '1') {
-        Node<char>* new_node = curr_node->get_copy();
-        Node<char>* tmp = curr_node->next;
+        TreeNode* new_node = curr_node->get_copy();
+        TreeNode* tmp = curr_node->next;
         curr_node->next = new_node;
 
         delete tmp;
@@ -150,7 +151,7 @@ Node<char>* ExpressionTree::lab_task(Node<char> *curr_node) {
         curr_node->data = '*';
         --curr_node->next->next->data;
     } else if (curr_node->data == '^' and curr_node->next->data == '1') {
-        Node<char>* tmp = curr_node;
+        TreeNode* tmp = curr_node;
         curr_node = curr_node->prev;
         delete tmp->next;
         tmp->next = nullptr;
