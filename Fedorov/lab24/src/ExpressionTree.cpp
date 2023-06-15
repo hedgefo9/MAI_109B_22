@@ -140,8 +140,8 @@ ExpressionTree::~ExpressionTree() {
 TreeNode *ExpressionTree::lab_task(TreeNode *curr_node) {
     if (curr_node == nullptr) return nullptr;
 
-    if (curr_node->get_data() == '^' and curr_node->get_next()
-        and curr_node->get_next()->get_data() > '1') {
+    if (curr_node->get_data() == '^' && curr_node->get_next()
+        && curr_node->get_next()->get_data() > '1') {
 
         TreeNode *new_node = curr_node->get_copy();
         TreeNode *tmp = curr_node->get_next();
@@ -152,8 +152,8 @@ TreeNode *ExpressionTree::lab_task(TreeNode *curr_node) {
 
         curr_node->set_data('*');
         curr_node->get_next()->get_next()->set_data(curr_node->get_next()->get_next()->get_data() - 1);
-    } else if (curr_node->get_data() == '^' and curr_node->get_next()
-               and curr_node->get_next()->get_data() == '1') {
+    } else if (curr_node->get_data() == '^' && curr_node->get_next()
+               && curr_node->get_next()->get_data() == '1') {
 
         TreeNode *tmp = curr_node;
         curr_node = curr_node->get_prev();
